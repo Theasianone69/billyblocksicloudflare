@@ -74,3 +74,16 @@ const landingPage = `
 </body>
 </html>
 `;
+const FORBIDDEN_WORDS = ['proxy', 'unblocked', 'emulator', 'torrent','games'];
+
+async function handleRequest(request) {
+  const url = new URL(request.url);
+  
+  // DPI check on the URL path and query
+  if (FORBIDDEN_WORDS.some(word => url.href.toLowerCase().includes(word))) {
+    return new Response("Blocked by Billy Blocksi DPI", { status: 403 });
+  }
+
+  const response = await fetch(request);
+  return response;
+}
